@@ -273,18 +273,18 @@
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                  
-                  <img src="{{ getAvatar() }} " class="user-image" alt="User Image"/>
+                  <img src="{{ getAvatar() }} " class="user-image avatar" alt="User Image"/>
                   @auth 
-                    <span class="hidden-xs">{{ auth()->user()->name }}</span>
+                    <span class="hidden-xs user-name">{{ auth()->user()->name }}</span>
                   @endauth
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
                   <li class="user-header">
-                    <img src="{{ getAvatar() }}" class="img-circle" alt="User Image" style="margin: 0 auto;" />
+                    <img src="{{ getAvatar() }}" class="img-circle avatar" alt="User Image" style="margin: 0 auto;" />
                     @auth 
                       <p>
-                        {{ auth()->user()->name }} - Admin
+                        <span class="user-name">{{ auth()->user()->name }}</span> - Admin
                         <small>Member since {{ date('M, y', strtotime(auth()->user()->created_at)) }}</small>
                       </p>
                     @endauth
@@ -317,11 +317,11 @@
           <!-- Sidebar user panel -->
           <div class="user-panel">
             <div class="pull-left image">
-              <img src="{{ getAvatar() }}" class="img-circle" alt="User Image" />
+              <img src="{{ getAvatar() }}" class="img-circle avatar" alt="User Image" />
             </div>
             <div class="pull-left info">
               @auth
-               <p>{{ auth()->user()->name }}</p>
+               <p class="user-name">{{ auth()->user()->name }}</p>
               @endauth
               <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
