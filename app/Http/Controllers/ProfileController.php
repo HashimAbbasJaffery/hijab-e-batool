@@ -21,11 +21,16 @@ class ProfileController extends Controller
         $email = request()->get("email");
         $response = ["status" => 1];
 
-        $validate = Validator::make(request()->all(), [
-            "picture" => "mimes:jpg,jpeg,png",
+        $rules = [
             "name" => "required",
-            "email" => "email|unique:users,email," . auth()->user()->id,
-        ]);
+            "email" => "required|email|unique:users,email," . auth()->user()->id
+        ];
+        
+        if(request()->hasFile("picture")) {
+            $rules["picture"] = "mimes:jpg,jpeg,png";
+        };
+
+        $validate = Validator::make(request()->all(), $rules);
 
         if($validate->fails()) {
             $response["status"] = 0;

@@ -43,12 +43,12 @@
                           @method("PATCH")
                           <h2 class="text-2xl text-bold mb-3">General Information</h2>
                           <img class="mb-6 rounded-full avatar" src="{{ getAvatar(60, 60) }}" width="60" />
-                          <x-input type="file" id="picture" label="Profile Picture" name="error-picture"/>
-                          <p class="text-red" id="error-password"></p>
+                          <p class="text-red change-details" id="error-picture"></p>
+                          <x-input type="file" id="picture" label="Profile Picture" value="null" name="error-picture"/>
+                          <p class="text-red change-details" id="error-name"></p>
                           <x-input type="text" id="name" label="Name" name="name" value="{{ $user->name }}"/>
-                          <p class="text-red" id="error-name"></p>
+                          <p class="text-red change-details" id="error-email"></p>
                           <x-input type="text" id="email" label="Email" name="email" value="{{ $user->email }}"/>
-                          <p class="text-red" id="error-email"></p>
                           <x-input type="submit" value="Change Details!" name="change_details_btn"/>
                         </form>
                     </div>
@@ -186,11 +186,9 @@
           
           axios.post("/admin/profile/changeDetails", fileData)
           .then(function(response) {
-            const messages = document.querySelectorAll(".text-red");
+            const messages = document.querySelectorAll(".change-details");
             messages.forEach(message => {
-                console.log(messages);
-                message.textContent = "";
-            
+              message.textContent = ""
             });
             if(response.data.status === 1) {
               changeAvatars(response);
