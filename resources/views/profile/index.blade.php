@@ -43,8 +43,11 @@
                           @method("PATCH")
                           <h2 class="text-2xl text-bold mb-3">General Information</h2>
                           <img class="mb-6 rounded-full avatar" src="{{ getAvatar(60, 60) }}" width="60" />
-                          <x-input type="file" id="picture" label="Profile Picture" name="picture"/>
+                          <p class="text-red change-details" id="error-picture"></p>
+                          <x-input type="file" id="picture" label="Profile Picture" value="null" name="error-picture"/>
+                          <p class="text-red change-details" id="error-name"></p>
                           <x-input type="text" id="name" label="Name" name="name" value="{{ $user->name }}"/>
+                          <p class="text-red change-details" id="error-email"></p>
                           <x-input type="text" id="email" label="Email" name="email" value="{{ $user->email }}"/>
                           <x-input type="submit" value="Change Details!" name="change_details_btn"/>
                         </form>
@@ -55,6 +58,11 @@
     </div>
 
     @push("scripts")
+    <script>
+      const success = message => {
+
+      }
+    </script>
     <script>
       const form = document.getElementById("changePassword");
       form.addEventListener("submit", function(e) {
@@ -102,12 +110,12 @@
 
             // This block of code will run only if Password changed successfully
 
-            const alert = document.getElementById("alertBoxSuccess");
+                        const alert = document.getElementById("alertBoxSuccess");
             const alertDanger = document.getElementById("alertBox");
             const message = document.getElementById("flash-message-success");
             alert.classList.remove("hidden");
             alertDanger.classList.add("hidden");
-            message.textContent = "Password has been changed successfully";
+            message.textContent = "Password has been changed succesfully!";
 
             // Emptying the values of the input 
 
@@ -135,22 +143,41 @@
       })
     </script>
     <script>
+        const flashMessage = status => {
+            const alert = document.getElementById("alertBoxSuccess");
+            const alertDanger = document.getElementById("alertBox");
+            const message = document.getElementById("flash-message-success");
+
+            if(status == "success") {
+              alert.classList.remove("hidden");
+              alertDanger.classList.add("hidden");
+            } else {
+              alert.classList.add("hidden");
+              alertDanger.classList.remove("hidden");
+            }
+            
+            message.textContent = "Details has been changed succesfully!";
+        }
+        const changeAvatars = response => {
+            // If avatar exists then update in the front
+            const avatars = document.querySelectorAll(".avatar");
+            const avatarAddress = response.data.new_avatar;
+            if(avatarAddress) {
+              avatars.forEach(avatar => {
+                avatar.src = `/uploads/${avatarAddress}`
+              });
+            }
+        }
+        const changeName = () => {
+          const names = document.querySelectorAll(".user-name");
+          const nameField = document.getElementById("name");
+          names.forEach(name => {
+            name.textContent = nameField.value;
+          })
+        }
         const detailForm = document.getElementById("changeDetails");
         detailForm.addEventListener("submit", function(e) {
           e.preventDefault();
-          const avatars = document.querySelectorAll(".avatar");
-          const picture = document.getElementById("picture");
-          console.log(picture.value);
-          const fr = new FileReader();
-          
-          avatars.forEach(avatar => {
-            fr.onload = function() {
-              avatar.src = fr.result;
-            }
-            fr.readAsDataURL(picture[0]);
-          })
-          return;
-
           let fileData = new FormData();
 
           fileData.append("picture", document.getElementById("picture").files[0]);
@@ -158,8 +185,24 @@
           fileData.append("email", document.getElementById("email").value);
           
           axios.post("/admin/profile/changeDetails", fileData)
-          .then(function(data) {
-            console.log(data);
+          .then(function(response) {
+            const messages = document.querySelectorAll(".change-details");
+            messages.forEach(message => {
+              message.textContent = ""
+            });
+            if(response.data.status === 1) {
+              changeAvatars(response);
+
+              flashMessage("success");
+
+              changeName();
+            } else {
+              const errors = response.data[1];
+              for(error in errors) {
+                const message = document.getElementById("error-" + error);
+                message.textContent = errors[error];
+              }
+            }
           })
           .catch(function(err) {
             console.log(err);

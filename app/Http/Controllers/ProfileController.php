@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Response;
 use Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
@@ -17,15 +18,28 @@ class ProfileController extends Controller
     }
     public function changeDetails() {
         $name = request()->get("name");
-        $email = request()->get("email");;
+        $email = request()->get("email");
+        $response = ["status" => 1];
 
-        $validate = Validator::make(request()->all(), [
+        $rules = [
             "name" => "required",
-            "email" => "email|unique:users,email," . auth()->user()->id,
-        ]);
+            "email" => "required|email|unique:users,email," . auth()->user()->id
+        ];
+        
+        if(request()->hasFile("picture")) {
+            $rules["picture"] = "mimes:jpg,jpeg,png";
+        };
+
+        $validate = Validator::make(request()->all(), $rules);
 
         if($validate->fails()) {
-            return response()->json(["errors", $validate->errors()]);
+            $response["status"] = 0;
+            return response()->json(
+                [
+                    "status" => $response["status"],
+                    "errors", $validate->errors()
+                ]
+            );
         }
 
         $user = User::find(auth()->user()->id);
@@ -53,7 +67,12 @@ class ProfileController extends Controller
                 "email" => $email
             ]);
 
-            return 1;
+            return Response::json(
+                [
+                    "status" => $response["status"],
+                    "new_avatar" => $user->picture
+                ]
+            );
         }
         // Updating the database
 
@@ -61,7 +80,11 @@ class ProfileController extends Controller
             "name" => $name,
             "email" => $email
         ]);
-        return 1;
+        return Response::json(
+            [
+                "status" => $response["status"]
+            ]
+        );
 
     }
     public function changePassword() {
