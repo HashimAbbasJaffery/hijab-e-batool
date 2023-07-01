@@ -38,7 +38,7 @@
                 <div class="multiple-selection border-2 overflow-auto mb-4" style="height:150px; width: 50%;">
                     @foreach($categories as $category)
                         <label for="{{ $category->id }}" class="p-2 block">
-                            <input type="checkbox" name="category" id="{{ $category->id }}" class="category-checkbox">
+                            <input type="checkbox" name="category" id="categories" class="category-checkbox">
                             <p style="display: inline;" class="ml-2">{{ $category->name }}</p>
                         </label>
                     @endforeach
@@ -109,6 +109,7 @@
                         console.log("not checked");
                 });
                 const json = JSON.stringify(categories);
+                console.log(categoryInput);
                 categoryInput.value = json;
             }
             const submitForm = () => {

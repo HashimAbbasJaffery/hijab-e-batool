@@ -91,6 +91,8 @@ const getAmount = product => {
     const profitLoss = earned - amountSpent;
     return profitLoss;
 }
+
+
 const HTMLtemplate = product => {
     const [message, status] = profitLoss(getAmount(product));
     const url = new URL(window.location.href);
