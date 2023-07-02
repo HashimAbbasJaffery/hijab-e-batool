@@ -8,9 +8,9 @@
                 @csrf   
             <div class="col-lg-6">
                 <p id="field-name" class="text-danger mb-2"></p>
-                <x-input name="name" label="Product name"/>
+                <x-input name="name" id="product-name" label="Product name"/>
                 <p id="field-slug" class="text-danger mb-2"></p>
-                <x-input name="slug" label="Slug"/>
+                <x-input name="slug" id="slug" label="Slug"/>
                 <p id="field-price" class="text-danger mb-2"></p>
                 <x-input name="price" label="price"/>
                 <p id="field-wholeSalePrice" class="text-danger mb-2"></p>
@@ -32,18 +32,18 @@
                     <span data-value="1" class="product-status p-2 status bg-green-500 text-white text-center rounded mr-5 cursor-pointer" style="width: 10%;">Active</span>
                     <span data-value="0" class="product-status p-2 status bg-gray-400 text-white text-center rounded cursor-pointer" style="width: 10%;">Deactive</span>
                 </div>
-                <x-input type="hidden" value="0" name="status"/>
+                <x-input type="hidden" value="0" id="status" name="status"/>
                 <p id="field-category" class="text-danger mb-2"></p>
                 <p>Select categories</p>
                 <div class="multiple-selection border-2 overflow-auto mb-4" style="height:150px; width: 50%;">
                     @foreach($categories as $category)
                         <label for="{{ $category->id }}" class="p-2 block">
-                            <input type="checkbox" name="category" id="categories" class="category-checkbox">
+                            <input type="checkbox" name="category" id="{{ $category->id }}" class="category-checkbox">
                             <p style="display: inline;" class="ml-2">{{ $category->name }}</p>
                         </label>
                     @endforeach
                 </div>
-                <x-input type="text" value="" name="categories"/>
+                <x-input type="text" value="" id="categories" name="categories"/>
 
             </div>
         </form>
@@ -52,6 +52,15 @@
     @push('scripts')
         <script>
             let myDropzone = new Dropzone("#file");
+        </script>
+        <script>
+            const productName = document.getElementById("product-name");
+            const slugInput = document.getElementById("slug");
+            productName.addEventListener("keyup", function() {
+                const name = productName.value;
+                const slug = name.toLowerCase().replaceAll(" ", "-").replace(/-$/, "");
+                slugInput.value = slug;
+            })
         </script>
         <script>
             const status = document.getElementById("status");
