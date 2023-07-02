@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>AdminLTE 2 | @yield('title')</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-
+    
+        
     <!-- Bootstrap 3.3.2 -->
     <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />    
     <!-- FontAwesome 4.3.0 -->
@@ -65,9 +66,10 @@
         <script src="/assets/https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
   </head>
+  {{-- <div style="padding-top:100.000%;position:relative;"><iframe src="https://gifer.com/embed/1amw" width="100%" height="100%" style='position:absolute;top:0;left:0;' frameBorder="0" allowFullScreen></iframe></div><p><a href="https://gifer.com">via GIFER</a></p> --}}
   <body class="skin-blue" style="overflow-x: visible;">
     <x-flash />
-          
+    <div class="loader"></div>    
     <div class="wrapper">
       
       <header class="main-header">
@@ -435,6 +437,15 @@
     </script>
     <script>
       // alert({{ Session::has("message") }})
+    </script>
+    <script>
+        const wrapper = document.querySelector(".wrapper");
+        const loader = document.querySelector(".loader");
+        
+        window.onload = function() {
+          wrapper.classList.remove("hidden");
+          loader.classList.add("hidden");
+        }
     </script>
     @stack('scripts')
   </body>

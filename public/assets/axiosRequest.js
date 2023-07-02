@@ -106,25 +106,26 @@ class axiosWrapper {
     }
     axios.post(this.url, values)
     .then(response => {
-      console.log({response});
       if(render)
         this.#appendData(response, current_page);
       if(response.data == 1)
         callback();
-      console.log(response.data);
       try {
         const errors = response.data;
-  
-        for(const err in errors) {
+        
+        for(let err in errors) {
+          console.log(err);
           const element = err;
           const id = `field-${element}`;
           const el = document.getElementById(id);
           const field = document.getElementById(err);
-          console.log(field);
+          console.log({field});
           const relatedError = errors[err][0];
           el.innerText = relatedError;
+          
           field.classList.remove("border-black");
           field.classList.add("border-rose-600");
+
         }
       } catch(e) {
 

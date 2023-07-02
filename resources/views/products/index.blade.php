@@ -60,8 +60,11 @@
       <script src="/assets/dict.js"></script>
       <script>
         function deleteItem(url) {
-          const request = new axiosWrapper(url);
-          request.delete(5);
+          const isConfirmed = confirm("lol")
+          if(isConfirmed) { 
+            const request = new axiosWrapper(url);
+            request.delete(5);
+          }
         }
       </script>
       <script>
