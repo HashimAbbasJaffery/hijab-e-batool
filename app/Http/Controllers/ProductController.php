@@ -28,7 +28,7 @@ class ProductController extends Controller
             "price" => "required|numeric",
             "wholeSalePrice" => "required|numeric",
             "description" => "required|max:255",
-            "product_img" => "required",
+            "product_img" => "required|mimes:jpg,png,jpeg",
             "quantity" => "required|numeric",
             "status" => "required|boolean",
             "category" => "required"
@@ -79,40 +79,53 @@ class ProductController extends Controller
     }
     public function update(Product $product) {
         $categories = request()->get("categories");
-        $validation = Validator::make(request()->all(), [
+
+        $rules = [
             "name" => "required",
             "slug" => "required",
             "price" => "required|numeric",
             "wholeSalePrice" => "required|numeric",
             "description" => "required",
-            "product_img" => "required|mimes:jpg,png,jpeg",
             "quantity" => "required|numeric",
             "status" => "required|boolean",
             "category" => "required"
-        ]);
-        if($validation->fails()) {
-            return $validation->getMessageBag()->toArray();
-        }
+        ];
 
-        // Delete the existing File
-        $filepath = public_path("/uploads/" . $product->picture);
-        File::delete($filepath);
-
-        $file = request()->file("product_img");
-        $filename = time() . $file->getClientOriginalName();
-        $file->move("uploads/", $filename);
-        $updatedProduct = Product::where("slug", $product->slug)->update([
+        $insertionData = [
             "name" => request()->get("name"),
             "slug" => request()->get("slug"),
             "price" => request()->get("price"),
             "wholeSalePrice" => request()->get("wholeSalePrice"),
             "description" => request()->get("description"),
-            "picture" => $filename,
             "profit" => "0",
-            "soldQuantity" => 0,
+            "soldQuantity" => $product->soldQuantity,
             "quantity" => request()->get("quantity"),
-            "status" => request()->get("status"),
-        ]);
+            "status" => request()->get("status")
+        ];
+
+        if(request()->hasFile("product_img")) {
+            $rules["product_img"] = "required|mimes:jpg,png,jpeg";
+        }
+
+        $validation = Validator::make(request()->all(), $rules);
+
+        if($validation->fails()) {
+            return $validation->getMessageBag()->toArray();
+        }
+
+        // Delete the existing File
+        if(request()->hasFile("product_img")) {
+            
+            if($product->picture) {
+                $filepath = public_path("/uploads/" . $product->picture);
+                File::delete($filepath);
+            }
+            $file = request()->file("product_img");
+            $filename = time() . $file->getClientOriginalName();
+            $file->move("uploads/", $filename);
+            $insertionData["picture"] = $filename;
+        }
+        $updatedProduct = Product::where("slug", $product->slug)->update($insertionData);
         
         $product->categories()->sync(json_decode(request()->get("categories")));
         return 1;

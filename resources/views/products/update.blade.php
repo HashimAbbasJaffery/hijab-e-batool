@@ -9,13 +9,13 @@
             @csrf   
             <div class="col-lg-6">
                 <p id="field-name" class="text-danger mb-2"></p>
-                <x-input name="name" label="Product name" value="{{ $product->name }}" />
+                <x-input name="name" label="Product name" id="name" value="{{ $product->name }}" />
                 <p id="field-slug" class="text-danger mb-2"></p>
-                <x-input name="slug" label="Slug" value="{{ $product->slug }}"/>
+                <x-input name="slug" label="Slug" id="slug" value="{{ $product->slug }}"/>
                 <p id="field-price" class="text-danger mb-2"></p>
-                <x-input name="price" label="price" value="{{ $product->price }}"/>
+                <x-input name="price" id="price" label="price" value="{{ $product->price }}"/>
                 <p id="field-wholeSalePrice" class="text-danger mb-2"></p>
-                <x-input name="wholeSalePrice" label="whole sale price" value="{{ $product->wholeSalePrice }}"/>
+                <x-input name="wholeSalePrice" id="wholeSalePrice" label="whole sale price" value="{{ $product->wholeSalePrice }}"/>
                 <p id="field-description" class="text-danger mb-2"></p>
                 <label for="description" style="width: 100%;">
                     <p>Description</p>
@@ -25,9 +25,9 @@
             </div>
             <div class="col-lg-6">
                 <p id="field-product_img" class="text-danger mb-2"></p>
-                <x-input type="file" name="product_img" label="Product name"/>
+                <x-input type="file" name="product_img" id="product_img" label="Product name"/>
                 <p id="field-quantity" class="text-danger mb-2"></p>
-                <x-input name="quantity" label="Quantity" value="{{ $product->quantity }}"/>
+                <x-input name="quantity" id="quantity" label="Quantity" value="{{ $product->quantity }}"/>
                 <div id="button" class="flex">
                     <span data-value="1" class="product-status p-2 status bg-green-500 text-white text-center rounded mr-5 cursor-pointer" style="width: 10%;">Active</span>
                     <span data-value="0" class="product-status p-2 status bg-gray-400 text-white text-center rounded cursor-pointer" style="width: 10%;">Deactive</span>
@@ -117,7 +117,7 @@
                     if(field)
                         field.innerHTML = "";
                     input.classList.remove("border-rose-600");
-                    input.classList.add("border-black");
+                    input.classList.add("border-slate-300"); 
                 })
                 try {
                     const response = request.post(false, 1, success, document.getElementById("editProduct"));
