@@ -60,7 +60,7 @@
       <script src="/assets/dict.js"></script>
       <script>
         function deleteItem(url) {
-          const isConfirmed = confirm("lol")
+          const isConfirmed = confirm("Do you really want to delete this record permanently?")
           if(isConfirmed) { 
             const request = new axiosWrapper(url);
             request.delete(5);
