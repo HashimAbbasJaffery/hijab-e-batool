@@ -91,6 +91,8 @@ const getAmount = product => {
     const profitLoss = earned - amountSpent;
     return profitLoss;
 }
+
+
 const HTMLtemplate = product => {
     const [message, status] = profitLoss(getAmount(product));
     const url = new URL(window.location.href);
@@ -103,7 +105,7 @@ const HTMLtemplate = product => {
         <td style="${ (!product.picture)? "display: none" : "" }">
         <img width="100" src="/uploads/${product.picture}" alt="Product Image">
         </td>
-        <td style="${ (!product.price)? "display: none" : "" }">${product.price} RS/-</td>
+        <td class="lol" style="${ (!product.price)? "display: none" : "" }">${product.price} RS/-</td>
         <td style="${ (!product.quantity)? "display: none" : "" }">${product.quantity}</td>
         <td style="${ (!product.hasOwnProperty("soldQuantity"))? "display: none" : "" }">${product.soldQuantity} Items</td>
         <td style="${ (!status)? "display: none" :  ""}">

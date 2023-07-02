@@ -8,17 +8,17 @@
                 @csrf   
             <div class="col-lg-6">
                 <p id="field-name" class="text-danger mb-2"></p>
-                <x-input name="name" label="Product name"/>
+                <x-input name="name" id="name" label="Product name"/>
                 <p id="field-slug" class="text-danger mb-2"></p>
-                <x-input name="slug" label="Slug"/>
+                <x-input name="slug" id="slug" label="Slug"/>
                 <p id="field-price" class="text-danger mb-2"></p>
-                <x-input name="price" label="price"/>
+                <x-input name="price" id="price" label="price"/>
                 <p id="field-wholeSalePrice" class="text-danger mb-2"></p>
-                <x-input name="wholeSalePrice" label="whole sale price"/>
+                <x-input name="wholeSalePrice" id="wholeSalePrice" label="whole sale price"/>
                 <p id="field-description" class="text-danger mb-2"></p>
                 <label for="description" style="width: 100%;">
                     <p>Description</p>
-                    <textarea name="description" id="description" class="border-2 border-black px-2 rounded text-light" style="width: 100%; resize: none; height: 200px"></textarea>
+                    <textarea name="description" id="description" class="inputs border-2 border-black px-2 rounded text-light" style="width: 100%; resize: none; height: 200px"></textarea>
                 </label>
                 <input type="submit" id="form-submit" class="bg-blue-500 text-white px-4 py-2 rounded mb-10" value="Create!">
             </div>
@@ -27,12 +27,12 @@
                 <x-input type="file" name="product_img" id="product_img" label="Product name"/>
               
                 <p id="field-quantity" class="text-danger mb-2"></p>
-                <x-input name="quantity" label="Quantity"/>
+                <x-input name="quantity" id="quantity" label="Quantity"/>
                 <div id="button" class="flex">
                     <span data-value="1" class="product-status p-2 status bg-green-500 text-white text-center rounded mr-5 cursor-pointer" style="width: 10%;">Active</span>
                     <span data-value="0" class="product-status p-2 status bg-gray-400 text-white text-center rounded cursor-pointer" style="width: 10%;">Deactive</span>
                 </div>
-                <x-input type="hidden" value="0" name="status"/>
+                <x-input type="hidden" value="0" id="status" name="status"/>
                 <p id="field-category" class="text-danger mb-2"></p>
                 <p>Select categories</p>
                 <div class="multiple-selection border-2 overflow-auto mb-4" style="height:150px; width: 50%;">
@@ -43,7 +43,7 @@
                         </label>
                     @endforeach
                 </div>
-                <x-input type="text" value="" name="categories"/>
+                <x-input type="text" value="" id="categories" name="categories"/>
 
             </div>
         </form>
@@ -52,6 +52,15 @@
     @push('scripts')
         <script>
             let myDropzone = new Dropzone("#file");
+        </script>
+        <script>
+            const productName = document.getElementById("name");
+            const slugInput = document.getElementById("slug");
+            productName.addEventListener("keyup", function() {
+                const name = productName.value;
+                const slug = name.toLowerCase().replaceAll(" ", "-").replace(/-$/, "");
+                slugInput.value = slug;
+            })
         </script>
         <script>
             const status = document.getElementById("status");
@@ -109,19 +118,23 @@
                         console.log("not checked");
                 });
                 const json = JSON.stringify(categories);
+                console.log(categoryInput);
                 categoryInput.value = json;
             }
             const submitForm = () => {
                 const url = "/admin/products/create";
                 const request = new axiosWrapper(url);
-                const inputs = document.querySelectorAll("input");
+                const messages = document.querySelectorAll(".text-danger");
+                const inputs = document.querySelectorAll(".inputs");
+
                 inputs.forEach(input => {
-                    const field = document.getElementById(`field-${input.id}`);
-                    // field.innerHTML = "";
-                    if(field)
-                        field.innerHTML = "";
                     input.classList.remove("border-rose-600");
+                    input.classList.add("border-slate-300");
                     input.classList.add("border-black");
+                })
+
+                messages.forEach(message => {
+                    message.textContent = "";
                 })
                 try {
                     

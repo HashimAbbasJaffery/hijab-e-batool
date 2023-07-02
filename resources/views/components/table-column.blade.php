@@ -3,6 +3,7 @@
                         <td>{{ $product->name }}</td>
                         <td>
                           <img width="100" src="{{ $product->picture }}" alt="Product Image">
+                          {{-- <x-carousel :images="$product->images" /> --}}
                         </td>
                         <td>{{ $product->price }} RS/-</td>
                         <td>{{ $product->quantity }}</td>
