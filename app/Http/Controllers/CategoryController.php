@@ -37,7 +37,7 @@ class CategoryController extends Controller
     public function store() {
         $validation = Validator::make(request()->all(), [
             "name" => "required",
-            "slug" => "required|unique:category",
+            "slug" => "required|unique:categories",
             "status" => "required"
         ]);
         if($validation->fails()) {
@@ -54,6 +54,14 @@ class CategoryController extends Controller
         return view("categories.update", compact("category"));
     }
     public function edit(Category $category) {
+        $validation = Validator::make(request()->all(), [
+            "name" => "required",
+            "slug" => "required|unique:categories,slug," . $category->id,
+            "status" => "required"
+        ]);
+        if($validation->fails()) {
+            return $validation->getMessageBag()->toArray();
+        }
         $category = $category->update([
             "name" => request()->get("name"),
             "status" => request()->get("status"),

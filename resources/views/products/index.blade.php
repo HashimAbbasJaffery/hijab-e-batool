@@ -11,6 +11,7 @@
                   <div id="search">
                     <p>Search</p>
                     <input type="text" class="mb-10 outline-0 px-2" placeholder="Search for products" style="border: 1px solid gray" name="q" id="q">
+                    <a href="/admin/products/create" class="create">Create!</a>
                   </div>
                   <table id="example1" class="table table-bordered table-striped">
                     <thead>
@@ -60,7 +61,7 @@
       <script src="/assets/dict.js"></script>
       <script>
         function deleteItem(url) {
-          const isConfirmed = confirm("lol")
+          const isConfirmed = confirm("Do you really want to delete this record permanently?")
           if(isConfirmed) { 
             const request = new axiosWrapper(url);
             request.delete(5);

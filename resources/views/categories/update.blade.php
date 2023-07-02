@@ -8,14 +8,14 @@
             @csrf   
             <div class="col-lg-6">
                 <p id="field-name" class="text-danger mb-2"></p>
-                <x-input name="name" label="Category name" value="{{ $category->name }}"/>
+                <x-input name="name" id="name" label="Category name" value="{{ $category->name }}"/>
                 <p id="field-slug" class="text-danger mb-2"></p>
-                <x-input name="slug" label="Slug" value="{{ $category->slug }}"/>
+                <x-input name="slug" id="slug"  label="Slug" value="{{ $category->slug }}"/>
                 <div id="button" class="flex">
                     <span data-value="1" class="product-status p-2 status bg-green-500 text-white text-center rounded mr-5 cursor-pointer" style="width: 10%;">Active</span>
                     <span data-value="0" class="product-status p-2 status bg-gray-400 text-white text-center rounded cursor-pointer" style="width: 10%;">Deactive</span>
                 </div>
-                <x-input type="hidden" value="0" name="status" value="{{ $category->status }}"/>
+                <x-input type="hidden" value="0" id="status" name="status" value="{{ $category->status }}"/>
                 <input type="submit" id="form-submit" class="bg-blue-500 text-white px-4 py-2 rounded mb-10" value="Create!">
             </div>
         </form>
