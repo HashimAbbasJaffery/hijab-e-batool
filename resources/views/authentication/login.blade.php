@@ -21,6 +21,9 @@
     <![endif]-->
   </head>
   <body class="login-page">
+    <div class="hidden" id="invalid-credentials" style="position: absolute; top: 20px; left: 50%; transform: translate(-50%, -50%);text-align: center; background: #F15A59; width: 40%; margin: 0 auto; margin-top: 20px; color: white; border-radius: 50px;">
+      <p style="padding: 5px 5px;">Your given credentials could not be matched :(</p>
+    </div>
     <div class="login-box">
       <div class="login-logo">
         <a href="../../index2.html"><b>Admin</b>LTE</a>
@@ -86,9 +89,26 @@
           window.location.href = "/admin";
         }
         const authenticate = form => {
-            const url = "/admin/login";
-            const request = new axiosWrapper(url);
-            request.post(false, 1, redirectToHome, form);
+            // const url = "/admin/login";
+            // const request = new axiosWrapper(url);
+            // request.post(false, 1, redirectToHome, form);
+
+            axios.post("/admin/login", form)
+            .then(response => {
+              console.log(response.data);
+              if(response.data === 0) {
+                const message = document.getElementById("invalid-credentials");
+                message.classList.remove("hidden");
+                setTimeout(function() {
+                  message.classList.add("hidden");
+                }, 5000)
+              } else {
+                window.location.href = "/admin";
+              }
+            })
+            .catch(err => {
+
+            })
         }
         const form = document.getElementById("authenticate");
         form.addEventListener("submit", e => {

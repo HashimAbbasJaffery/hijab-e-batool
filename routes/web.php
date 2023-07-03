@@ -66,8 +66,8 @@ Route::prefix("/admin")->middleware(["auth", "isAdmin"])->group(function() {
 
     // Authentication Routes
     Route::withoutMiddleware(["auth", isAdmin::class])->group(function() {
-        Route::get("login", [SessionController::class, "login"])->name("login");
-        Route::post("login", [SessionController::class, "authenticate"])->name("authenticate");
+        Route::get("login", [SessionController::class, "login"])->name("login")->middleware("guest");
+        Route::post("login", [SessionController::class, "authenticate"])->name("authenticate")->middleware("guest");
         Route::post("logout", [SessionController::class, "destroy"])->name("logout");
         Route::get("/forget-password", [SessionController::class, "reset_password_view"])
             ->name("password.change")->middleware("guest");
