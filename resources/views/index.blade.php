@@ -35,21 +35,21 @@
                 name="Earning in Last 30 days"
                 icon="ion ion-stats-bars"
                 color="bg-green"
-                href="#"
+                href="/admin/orders?status=delivered"
               />
               <x-stats-card 
                 quantity="{{ $usersQty }}"
                 name="User Registration"
                 icon="ion ion-person-add"
                 color="bg-yellow"
-                href="#"
+                href="/admin/users"
               />
               <x-stats-card 
                 quantity="{{ $ordersSum }} RS"
                 name="All time Income"
                 icon="ion ion-pie-graph"
                 color="bg-red"
-                href="#"
+                href="/admin/orders"
               />
           </div><!-- /.row -->
           <!-- Main row -->
