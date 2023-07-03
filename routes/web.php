@@ -32,6 +32,7 @@ use App\Http\Controllers\ImageController;
 
 Route::prefix("/admin")->middleware(["auth", "isAdmin"])->group(function() {
 
+    
     // Product Routes
     Route::get("/products/", [ProductController::class, "index"])->name("product.index")->middleware("auth");
     Route::post("/products/{product:slug}/updateStatus", [ProductController::class, "status"]);
@@ -100,7 +101,7 @@ Route::prefix("/admin")->middleware(["auth", "isAdmin"])->group(function() {
     Route::put("profile/changePassword", [ProfileController::class, "changePassword"]);
     Route::post("profile/changeDetails", [ProfileController::class, "changeDetails"]);
     
-    Route::get('/', [AdminController::class, "index"])->middleware("auth");
+    Route::get('/', [AdminController::class, "index"])->middleware("auth")->name("adminHome");
 
     
 });

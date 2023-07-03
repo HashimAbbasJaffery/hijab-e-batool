@@ -69,12 +69,12 @@
   {{-- <div style="padding-top:100.000%;position:relative;"><iframe src="https://gifer.com/embed/1amw" width="100%" height="100%" style='position:absolute;top:0;left:0;' frameBorder="0" allowFullScreen></iframe></div><p><a href="https://gifer.com">via GIFER</a></p> --}}
   <body class="skin-blue" style="overflow-x: visible;">
     <x-flash />
-    <div class="loader"></div>    
-    <div class="wrapper">
+    <div class="loader {{ (request()->route()->named("adminHome")) ? "hidden" : ""}}"></div>    
+    <div class="wrapper {{ (request()->route()->named("adminHome")) ? "" : "hidden" }}">
       
       <header class="main-header">
         <!-- Logo -->
-        <a href="index2.html" class="logo"><b>Admin</b>LTE</a>
+        <a href="{{ route("adminHome") }}" class="logo"><b>Admin</b>LTE</a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
           <!-- Sidebar toggle button-->
@@ -367,11 +367,6 @@
               </a>
             </li>
             
-            <li class="treeview">
-              <a href="#">
-                <span>Media</span> 
-              </a>
-            </li>
             
           </ul>
         </section>
@@ -391,6 +386,19 @@
     </div><!-- ./wrapper -->
 
     <!-- jQuery 2.1.3 -->
+    
+    @stack('scripts')
+    @if(!request()->route()->named("adminHome"))
+      <script>
+          const wrapper = document.querySelector(".wrapper");
+          const loader = document.querySelector(".loader");
+          
+          window.onload = function() {
+            wrapper.classList.remove("hidden");
+            loader.classList.add("hidden");
+          }
+      </script>
+    @endif
     <script src="/assets/plugins/jQuery/jQuery-2.1.3.min.js"></script>
     <!-- jQuery UI 1.11.2 -->
     <script src="/assets/http://code.jquery.com/ui/1.11.2/jquery-ui.min.js" type="text/javascript"></script>
@@ -438,15 +446,6 @@
     <script>
       // alert({{ Session::has("message") }})
     </script>
-    <script>
-        const wrapper = document.querySelector(".wrapper");
-        const loader = document.querySelector(".loader");
-        
-        window.onload = function() {
-          wrapper.classList.remove("hidden");
-          loader.classList.add("hidden");
-        }
-    </script>
-    @stack('scripts')
+    
   </body>
 </html>
