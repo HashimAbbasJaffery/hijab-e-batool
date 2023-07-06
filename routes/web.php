@@ -16,7 +16,7 @@ use Illuminate\Foundation\Bootstrap\HandleExceptions;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ImageController;
-
+use App\Http\Controllers\FrontController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -106,23 +106,8 @@ Route::prefix("/admin")->middleware(["auth", "isAdmin"])->group(function() {
     
 });
 
+// Front end routers
 
+Route::get("/", [FrontController::class, "index"]);
 
-// Learning Logs 
-
-Route::get("/log", function(Log $log) {
-    $handleException = new HandleExceptions();
-    // $handleException->handleDeprecationError("message", storage_path("logs/custom.log"), 2);
-    $user = User::findOrFail("2");
-    Log::alert(sprintf("User: "), [ $user ]);
-
-    // Runtime logging
-
-    // Log::build([
-    //     'driver' => 'single',
-    //     'path' => storage_path("logs/custom.log"),
-    //     'level' => 'debug'
-    // ])->info("Runtime Loggin");
-
-});
 
