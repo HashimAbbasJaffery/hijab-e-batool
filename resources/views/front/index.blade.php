@@ -65,37 +65,9 @@
 			<div class="inner-container">
 				<div class="row clearfix">
 					<!-- Feature Block -->
-					<div class="feature-block col-xl-4 col-lg-6 col-md-6 col-sm-12">
-						<div class="inner-box">
-							<div class="content">
-								<div class="icon flaticon-padlock"></div>
-								<strong>Payment Secure</strong>
-								<div class="text">Got 100% Payment Safe</div>
-							</div>
-						</div>
-					</div>
-					
-					<!-- Feature Block -->
-					<div class="feature-block col-xl-4 col-lg-6 col-md-6 col-sm-12">
-						<div class="inner-box">
-							<div class="content">
-								<div class="icon flaticon-headphones-1"></div>
-								<strong>Support 24/7</strong>
-								<div class="text">Top quialty 24/7 Support</div>
-							</div>
-						</div>
-					</div>
-					
-					<!-- Feature Block -->
-					<div class="feature-block col-xl-4 col-lg-6 col-md-6 col-sm-12">
-						<div class="inner-box">
-							<div class="content">
-								<div class="icon flaticon-wallet"></div>
-								<strong>100% Money Back</strong>
-								<div class="text">Cutomers Money Backs</div>
-							</div>
-						</div>
-					</div>
+					<x-front.feature title="Payment Secure" message="Got 100% Payment Safe" icon="flaticon-padlock"/>
+					<x-front.feature title="Support 24/7" message="Top quality 24/7 Support" icon="flaticon-headphones-1"/>
+					<x-front.feature title="100% Money Back" message="Cutomers Money Backs" icon="flaticon-wallet"/>
 					
 				</div>
 			</div>
@@ -114,12 +86,11 @@
 				
 				<!-- Shop Item -->
 				
-				
-				<x-front.product name="hashim"/>
-				<x-front.product name="tanzeela"/>
-				<x-front.product name="taskeen"/>
-				<x-front.product name="Jawed"/>
-				<x-front.product name="Sadia"/>
+				@foreach($products as $product)
+					@if($loop->index < 8)
+						<x-front.product :product="$product"/>
+					@endif
+				@endforeach
 				
 			</div>
 		</div>
@@ -187,36 +158,30 @@
 				<div class="single-item-carousel owl-carousel owl-theme">
 					
 					<!-- Slide -->
-					<div class="slide">
-						<div class="row clearfix">
-						
-							<x-front.category name="hashim" quantity="1"/>
-							<x-front.category name="hashim" quantity="1"/>
-							<x-front.category name="hashim" quantity="1"/>
-							<x-front.category name="hashim" quantity="1"/>
-							<x-front.category name="hashim" quantity="1"/>
-							<x-front.category name="hashim" quantity="1"/>
-							<x-front.category name="hashim" quantity="1"/>
-							<x-front.category name="hashim" quantity="1"/>	
+					{{-- @dd($categoryCollection) --}}
+					@foreach($categoryCollection as $categories)
+						@if($loop->index < 8)
+							<div class="slide">
+								<div class="row clearfix">
+									@foreach($categories as $category)
+										<x-front.category :name="$category->name" :quantity="$category->products->count()"/>	
+									@endforeach
+									
+								</div>
+							</div>
+						@else
 							
+							<!-- Slide -->
+							<div class="slide">
+								<div class="row clearfix">
+								@foreach($categories as $category)
+									<x-front.category :name="$category->name" :quantity="$category->products->count()"/>
+								@endforeach
+								
+							</div>
+						@endif
+					@endforeach
 						</div>
-					</div>
-					
-					<!-- Slide -->
-					<div class="slide">
-						<div class="row clearfix">
-						
-							<x-front.category name="hashim" quantity="1"/>
-							<x-front.category name="hashim" quantity="1"/>
-							<x-front.category name="hashim" quantity="1"/>
-							<x-front.category name="hashim" quantity="1"/>
-							<x-front.category name="hashim" quantity="1"/>
-							<x-front.category name="hashim" quantity="1"/>
-							<x-front.category name="hashim" quantity="1"/>
-							<x-front.category name="hashim" quantity="1"/>
-							
-						</div>
-					</div>
 					
 					
 				</div>
@@ -292,14 +257,14 @@
 					{{-- mix sports bestseller col-lg-3 col-md-6 col-sm-12 --}}
 
 					
-				<x-front.product name="hashim" class="mix sports bestseller col-lg-3 col-md-6 col-sm-12"/>
-				<x-front.product name="hashim" class="mix sports bestseller col-lg-3 col-md-6 col-sm-12"/>
-				<x-front.product name="hashim" class="mix sports bestseller col-lg-3 col-md-6 col-sm-12"/>
-				<x-front.product name="hashim" class="mix sports bestseller col-lg-3 col-md-6 col-sm-12"/>
-				<x-front.product name="hashim" class="mix sports bestseller col-lg-3 col-md-6 col-sm-12"/>
-				<x-front.product name="hashim" class="mix sports bestseller col-lg-3 col-md-6 col-sm-12"/>
-				<x-front.product name="hashim" class="mix sports bestseller col-lg-3 col-md-6 col-sm-12"/>
-				<x-front.product name="hashim" class="mix sports bestseller col-lg-3 col-md-6 col-sm-12"/>
+				{{-- <x-front.product name="hashim" classes="mix sports bestseller col-lg-3 col-md-6 col-sm-12"/>
+				<x-front.product name="hashim" classes="mix sports bestseller col-lg-3 col-md-6 col-sm-12"/>
+				<x-front.product name="hashim" classes="mix sports bestseller col-lg-3 col-md-6 col-sm-12"/>
+				<x-front.product name="hashim" classes="mix sports bestseller col-lg-3 col-md-6 col-sm-12"/>
+				<x-front.product name="hashim" classes="mix sports bestseller col-lg-3 col-md-6 col-sm-12"/>
+				<x-front.product name="hashim" classes="mix sports bestseller col-lg-3 col-md-6 col-sm-12"/>
+				<x-front.product name="hashim" classes="mix sports bestseller col-lg-3 col-md-6 col-sm-12"/>
+				<x-front.product name="hashim" classes="mix sports bestseller col-lg-3 col-md-6 col-sm-12"/> --}}
 				
 					
 					
