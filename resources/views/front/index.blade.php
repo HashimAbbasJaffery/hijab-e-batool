@@ -86,11 +86,11 @@
 				
 				<!-- Shop Item -->
 				
-				@foreach($products as $product)
-					@if($loop->index < 8)
-						<x-front.product :product="$product"/>
-					@endif
-				@endforeach
+					@foreach($products as $product)
+						@if($loop->index < 8)
+							<x-front.product :product="$product"/>
+						@endif
+					@endforeach
 				
 			</div>
 		</div>
@@ -257,14 +257,13 @@
 					{{-- mix sports bestseller col-lg-3 col-md-6 col-sm-12 --}}
 
 					
-				{{-- <x-front.product name="hashim" classes="mix sports bestseller col-lg-3 col-md-6 col-sm-12"/>
-				<x-front.product name="hashim" classes="mix sports bestseller col-lg-3 col-md-6 col-sm-12"/>
-				<x-front.product name="hashim" classes="mix sports bestseller col-lg-3 col-md-6 col-sm-12"/>
-				<x-front.product name="hashim" classes="mix sports bestseller col-lg-3 col-md-6 col-sm-12"/>
-				<x-front.product name="hashim" classes="mix sports bestseller col-lg-3 col-md-6 col-sm-12"/>
-				<x-front.product name="hashim" classes="mix sports bestseller col-lg-3 col-md-6 col-sm-12"/>
-				<x-front.product name="hashim" classes="mix sports bestseller col-lg-3 col-md-6 col-sm-12"/>
-				<x-front.product name="hashim" classes="mix sports bestseller col-lg-3 col-md-6 col-sm-12"/> --}}
+				@foreach($products as $product)
+					@if($loop->index < 12)
+						<x-front.product classes="mix sports bestseller col-lg-3 col-md-6 col-sm-12" :product="$product"/>
+					@else 
+						@break
+					@endif
+				@endforeach
 				
 					
 					
@@ -282,7 +281,16 @@
 	</section>
 	<!-- End Products Section Three -->
 
-
+@push("front-scripts")
+	<script>
+		const quantities = document.querySelectorAll(".qty-spinner");
+		quantities.forEach(quantity => {
+			quantity.addEventListener("change", () => {
+				alert("lol");
+			})
+		})
+	</script>
+@endpush
 </x-layout>
 	
 	
