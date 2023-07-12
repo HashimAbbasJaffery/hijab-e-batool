@@ -10,7 +10,18 @@ class FrontController extends Controller
 {
     public function index() {
         
-        $products = Product::where("status", 1)->get();
+        $products = Product::where("status", 1)->limit(8)->get();
+        
+        $productIds = $products->map(function($product) {
+            return $product->only("id");
+        });
+
+        
+        $shopProducts = Product::whereNotIn("id", $productIds->toArray())
+                                ->where("status", 1)
+                                ->limit(12)
+                                ->get();
+
         $categories = Category::where("status", "1")->limit(16)->get();
         $i = 0;
         $categoryCollection = [[], []];
@@ -25,6 +36,6 @@ class FrontController extends Controller
         }
 
 
-        return view("front.index")->with(compact("categoryCollection", "products"));
+        return view("front.index")->with(compact("categoryCollection", "products", "shopProducts"));
     }
 }

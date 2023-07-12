@@ -257,7 +257,7 @@
 					{{-- mix sports bestseller col-lg-3 col-md-6 col-sm-12 --}}
 
 					
-				@foreach($products as $product)
+				@foreach($shopProducts as $product)
 					@if($loop->index < 12)
 						<x-front.product classes="mix sports bestseller col-lg-3 col-md-6 col-sm-12" :product="$product"/>
 					@else 
@@ -282,13 +282,37 @@
 	<!-- End Products Section Three -->
 
 @push("front-scripts")
+<script src="https://cdn.jsdelivr.net/npm/jquery.nice-number@2.1.0/src/jquery.nice-number.js"></script>
+
 	<script>
-		const quantities = document.querySelectorAll(".qty-spinner");
-		quantities.forEach(quantity => {
-			quantity.addEventListener("change", () => {
-				alert("lol");
-			})
-		})
+		const parseId = id => id.split("-")[1];
+		const buttonGetter = symbol => {
+			return `<button style="border: none" class="btn btn-default bootstrap-touchspin-up" type="button">${symbol}<i class="glyphicon glyphicon-chevron-up"></i></button>`
+		}
+		const field = $('input[type="number"]');
+		const adjustPrice = (currentInput, amount) => {
+				const id = currentInput[0].id;
+				const priceTagId = "price-tag-" + parseId(id);
+				const priceTag = document.getElementById(priceTagId) 
+				const overallPrice = amount * priceTag.dataset.price;
+				const overallDiscountPrice = amount * priceTag.dataset.discount;
+				const newPriceContent = `<span>$${overallDiscountPrice}.52</span> ${overallPrice} RS -/`;
+				priceTag.innerHTML = newPriceContent;
+		}
+		const replaceContent = (id, content) => {
+			$(id).html(content);
+			const element = document.getElementById(id);
+		}
+		field.niceNumber({
+			onIncrement: function($currentInput, amount) {
+				adjustPrice($currentInput, amount);
+			}, 
+			onDecrement: function($currentInput, amount) {
+				adjustPrice($currentInput, amount)
+			},
+			buttonDecrement: buttonGetter("-"),
+			buttonIncrement: buttonGetter("+")
+		});
 	</script>
 @endpush
 </x-layout>
